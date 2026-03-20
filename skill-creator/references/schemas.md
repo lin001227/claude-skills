@@ -1,12 +1,12 @@
-# JSON Schemas
+# JSON 模式
 
-This document defines the JSON schemas used by skill-creator.
+本文档定义了 skill-creator 使用的 JSON 模式。
 
 ---
 
 ## evals.json
 
-Defines the evals for a skill. Located at `evals/evals.json` within the skill directory.
+定义技能的评估。位于技能目录内的 `evals/evals.json`。
 
 ```json
 {
@@ -14,31 +14,31 @@ Defines the evals for a skill. Located at `evals/evals.json` within the skill di
   "evals": [
     {
       "id": 1,
-      "prompt": "User's example prompt",
-      "expected_output": "Description of expected result",
+      "prompt": "用户示例提示",
+      "expected_output": "预期结果描述",
       "files": ["evals/files/sample1.pdf"],
       "expectations": [
-        "The output includes X",
-        "The skill used script Y"
+        "输出包含X",
+        "技能使用了脚本Y"
       ]
     }
   ]
 }
 ```
 
-**Fields:**
-- `skill_name`: Name matching the skill's frontmatter
-- `evals[].id`: Unique integer identifier
-- `evals[].prompt`: The task to execute
-- `evals[].expected_output`: Human-readable description of success
-- `evals[].files`: Optional list of input file paths (relative to skill root)
-- `evals[].expectations`: List of verifiable statements
+**字段：**
+- `skill_name`: 与技能 frontmatter 匹配的名称
+- `evals[].id`: 唯一整数标识符
+- `evals[].prompt`: 要执行的任务
+- `evals[].expected_output`: 成功的人类可读描述
+- `evals[].files`: 输入文件路径的可选列表（相对于技能根目录）
+- `evals[].expectations`: 可验证语句的列表
 
 ---
 
 ## history.json
 
-Tracks version progression in Improve mode. Located at workspace root.
+跟踪改进模式中的版本进展。位于工作区根目录。
 
 ```json
 {
@@ -71,34 +71,34 @@ Tracks version progression in Improve mode. Located at workspace root.
 }
 ```
 
-**Fields:**
-- `started_at`: ISO timestamp of when improvement started
-- `skill_name`: Name of the skill being improved
-- `current_best`: Version identifier of the best performer
-- `iterations[].version`: Version identifier (v0, v1, ...)
-- `iterations[].parent`: Parent version this was derived from
-- `iterations[].expectation_pass_rate`: Pass rate from grading
-- `iterations[].grading_result`: "baseline", "won", "lost", or "tie"
-- `iterations[].is_current_best`: Whether this is the current best version
+**字段：**
+- `started_at`: 改进开始的ISO时间戳
+- `skill_name`: 正在改进的技能名称
+- `current_best`: 最佳表现版本的标识符
+- `iterations[].version`: 版本标识符（v0、v1、...）
+- `iterations[].parent`: 派生此版本的父版本
+- `iterations[].expectation_pass_rate`: 来自评分的通过率
+- `iterations[].grading_result`: "baseline"、"won"、"lost" 或 "tie"
+- `iterations[].is_current_best`: 是否为当前最佳版本
 
 ---
 
 ## grading.json
 
-Output from the grader agent. Located at `<run-dir>/grading.json`.
+评分代理的输出。位于 `<run-dir>/grading.json`。
 
 ```json
 {
   "expectations": [
     {
-      "text": "The output includes the name 'John Smith'",
+      "text": "输出包含名称'John Smith'",
       "passed": true,
-      "evidence": "Found in transcript Step 3: 'Extracted names: John Smith, Sarah Johnson'"
+      "evidence": "在记录第3步中找到：'提取的名称：John Smith, Sarah Johnson'"
     },
     {
-      "text": "The spreadsheet has a SUM formula in cell B10",
+      "text": "电子表格在单元格B10中有SUM公式",
       "passed": false,
-      "evidence": "No spreadsheet was created. The output was a text file."
+      "evidence": "未创建电子表格。输出是文本文件。"
     }
   ],
   "summary": {
@@ -126,43 +126,43 @@ Output from the grader agent. Located at `<run-dir>/grading.json`.
   },
   "claims": [
     {
-      "claim": "The form has 12 fillable fields",
+      "claim": "表单有12个可填写字段",
       "type": "factual",
       "verified": true,
-      "evidence": "Counted 12 fields in field_info.json"
+      "evidence": "在field_info.json中计算了12个字段"
     }
   ],
   "user_notes_summary": {
-    "uncertainties": ["Used 2023 data, may be stale"],
+    "uncertainties": ["使用了2023年数据，可能过时"],
     "needs_review": [],
-    "workarounds": ["Fell back to text overlay for non-fillable fields"]
+    "workarounds": ["对不可填充字段回落到文本覆盖"]
   },
   "eval_feedback": {
     "suggestions": [
       {
-        "assertion": "The output includes the name 'John Smith'",
-        "reason": "A hallucinated document that mentions the name would also pass"
+        "assertion": "输出包含名称'John Smith'",
+        "reason": "提及名称的虚构文档也会通过"
       }
     ],
-    "overall": "Assertions check presence but not correctness."
+    "overall": "断言检查存在但不检查正确性。"
   }
 }
 ```
 
-**Fields:**
-- `expectations[]`: Graded expectations with evidence
-- `summary`: Aggregate pass/fail counts
-- `execution_metrics`: Tool usage and output size (from executor's metrics.json)
-- `timing`: Wall clock timing (from timing.json)
-- `claims`: Extracted and verified claims from the output
-- `user_notes_summary`: Issues flagged by the executor
-- `eval_feedback`: (optional) Improvement suggestions for the evals, only present when the grader identifies issues worth raising
+**字段：**
+- `expectations[]`: 带有证据的评分期望
+- `summary`: 总计通过/失败数量
+- `execution_metrics`: 工具使用和输出大小（来自执行器的 metrics.json）
+- `timing`: 墙钟时间（来自 timing.json）
+- `claims`: 从输出中提取和验证的声明
+- `user_notes_summary`: 执行器标记的问题
+- `eval_feedback`: （可选）对评估的改进建议，仅当评分器识别出值得关注的问题时存在
 
 ---
 
 ## metrics.json
 
-Output from the executor agent. Located at `<run-dir>/outputs/metrics.json`.
+执行器代理的输出。位于 `<run-dir>/outputs/metrics.json`。
 
 ```json
 {
@@ -183,22 +183,22 @@ Output from the executor agent. Located at `<run-dir>/outputs/metrics.json`.
 }
 ```
 
-**Fields:**
-- `tool_calls`: Count per tool type
-- `total_tool_calls`: Sum of all tool calls
-- `total_steps`: Number of major execution steps
-- `files_created`: List of output files created
-- `errors_encountered`: Number of errors during execution
-- `output_chars`: Total character count of output files
-- `transcript_chars`: Character count of transcript
+**字段：**
+- `tool_calls`: 每种工具类型的计数
+- `total_tool_calls`: 所有工具调用的总和
+- `total_steps`: 主要执行步骤的数量
+- `files_created`: 创建的输出文件列表
+- `errors_encountered`: 执行期间遇到的错误数
+- `output_chars`: 输出文件的总字符数
+- `transcript_chars`: 记录的字符数
 
 ---
 
 ## timing.json
 
-Wall clock timing for a run. Located at `<run-dir>/timing.json`.
+运行的墙钟时间。位于 `<run-dir>/timing.json`。
 
-**How to capture:** When a subagent task completes, the task notification includes `total_tokens` and `duration_ms`. Save these immediately — they are not persisted anywhere else and cannot be recovered after the fact.
+**如何捕获：** 当子代理任务完成时，任务通知包括 `total_tokens` 和 `duration_ms`。立即保存这些数据——它们不会在其他地方持久化，事后无法恢复。
 
 ```json
 {
@@ -218,7 +218,7 @@ Wall clock timing for a run. Located at `<run-dir>/timing.json`.
 
 ## benchmark.json
 
-Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
+基准模式的输出。位于 `benchmarks/<timestamp>/benchmark.json`。
 
 ```json
 {
@@ -252,8 +252,8 @@ Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
         {"text": "...", "passed": true, "evidence": "..."}
       ],
       "notes": [
-        "Used 2023 data, may be stale",
-        "Fell back to text overlay for non-fillable fields"
+        "使用了2023年数据，可能过时",
+        "对不可填充字段回落到文本覆盖"
       ]
     }
   ],
@@ -277,43 +277,43 @@ Output from Benchmark mode. Located at `benchmarks/<timestamp>/benchmark.json`.
   },
 
   "notes": [
-    "Assertion 'Output is a PDF file' passes 100% in both configurations - may not differentiate skill value",
-    "Eval 3 shows high variance (50% ± 40%) - may be flaky or model-dependent",
-    "Without-skill runs consistently fail on table extraction expectations",
-    "Skill adds 13s average execution time but improves pass rate by 50%"
+    "断言'输出是PDF文件'在两种配置中都100%通过 - 可能不会区分技能价值",
+    "评估3显示高方差（50% ± 40%）- 可能不稳定或模型依赖",
+    "无技能运行在表提取期望上始终失败",
+    "技能增加13秒平均执行时间但提高50%通过率"
   ]
 }
 ```
 
-**Fields:**
-- `metadata`: Information about the benchmark run
-  - `skill_name`: Name of the skill
-  - `timestamp`: When the benchmark was run
-  - `evals_run`: List of eval names or IDs
-  - `runs_per_configuration`: Number of runs per config (e.g. 3)
-- `runs[]`: Individual run results
-  - `eval_id`: Numeric eval identifier
-  - `eval_name`: Human-readable eval name (used as section header in the viewer)
-  - `configuration`: Must be `"with_skill"` or `"without_skill"` (the viewer uses this exact string for grouping and color coding)
-  - `run_number`: Integer run number (1, 2, 3...)
-  - `result`: Nested object with `pass_rate`, `passed`, `total`, `time_seconds`, `tokens`, `errors`
-- `run_summary`: Statistical aggregates per configuration
-  - `with_skill` / `without_skill`: Each contains `pass_rate`, `time_seconds`, `tokens` objects with `mean` and `stddev` fields
-  - `delta`: Difference strings like `"+0.50"`, `"+13.0"`, `"+1700"`
-- `notes`: Freeform observations from the analyzer
+**字段：**
+- `metadata`: 关于基准运行的信息
+  - `skill_name`: 技能名称
+  - `timestamp`: 运行基准的时间
+  - `evals_run`: 评估名称或ID列表
+  - `runs_per_configuration`: 每种配置的运行次数（例如3）
+- `runs[]`: 单独运行结果
+  - `eval_id`: 数字评估标识符
+  - `eval_name`: 人类可读的评估名称（在查看器中用作节标题）
+  - `configuration`: 必须是 `"with_skill"` 或 `"without_skill"`（查看器使用此精确字符串进行分组和颜色编码）
+  - `run_number`: 整数运行编号（1、2、3...）
+  - `result`: 包含 `pass_rate`、`passed`、`total`、`time_seconds`、`tokens`、`errors` 的嵌套对象
+- `run_summary`: 每种配置的统计聚合
+  - `with_skill` / `without_skill`: 每个包含 `pass_rate`、`time_seconds`、`tokens` 对象，带有 `mean` 和 `stddev` 字段
+  - `delta`: 差异字符串如 `"+0.50"`、`"+13.0"`、`"+1700"`
+- `notes`: 来自分析器的自由格式观察
 
-**Important:** The viewer reads these field names exactly. Using `config` instead of `configuration`, or putting `pass_rate` at the top level of a run instead of nested under `result`, will cause the viewer to show empty/zero values. Always reference this schema when generating benchmark.json manually.
+**重要：** 查看器精确读取这些字段名。使用 `config` 而不是 `configuration`，或将 `pass_rate` 放在运行的顶级而不是嵌套在 `result` 下，会导致查看器显示空值/零值。手动生成 benchmark.json 时始终参考此模式。
 
 ---
 
 ## comparison.json
 
-Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
+盲比较器的输出。位于 `<grading-dir>/comparison-N.json`。
 
 ```json
 {
   "winner": "A",
-  "reasoning": "Output A provides a complete solution with proper formatting and all required fields. Output B is missing the date field and has formatting inconsistencies.",
+  "reasoning": "输出A提供了完整的解决方案，格式正确，包含所有必需字段。输出B缺少日期字段，格式不一致。",
   "rubric": {
     "A": {
       "content": {
@@ -349,13 +349,13 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
   "output_quality": {
     "A": {
       "score": 9,
-      "strengths": ["Complete solution", "Well-formatted", "All fields present"],
-      "weaknesses": ["Minor style inconsistency in header"]
+      "strengths": ["完整解决方案", "格式良好", "所有字段都存在"],
+      "weaknesses": ["标题中的小样式不一致"]
     },
     "B": {
       "score": 5,
-      "strengths": ["Readable output", "Correct basic structure"],
-      "weaknesses": ["Missing date field", "Formatting inconsistencies", "Partial data extraction"]
+      "strengths": ["可读输出", "正确的基本结构"],
+      "weaknesses": ["缺少日期字段", "格式不一致", "部分数据提取"]
     }
   },
   "expectation_results": {
@@ -364,7 +364,7 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
       "total": 5,
       "pass_rate": 0.80,
       "details": [
-        {"text": "Output includes name", "passed": true}
+        {"text": "输出包含名称", "passed": true}
       ]
     },
     "B": {
@@ -372,7 +372,7 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
       "total": 5,
       "pass_rate": 0.60,
       "details": [
-        {"text": "Output includes name", "passed": true}
+        {"text": "输出包含名称", "passed": true}
       ]
     }
   }
@@ -383,7 +383,7 @@ Output from blind comparator. Located at `<grading-dir>/comparison-N.json`.
 
 ## analysis.json
 
-Output from post-hoc analyzer. Located at `<grading-dir>/analysis.json`.
+事后分析器的输出。位于 `<grading-dir>/analysis.json`。
 
 ```json
 {
@@ -391,26 +391,26 @@ Output from post-hoc analyzer. Located at `<grading-dir>/analysis.json`.
     "winner": "A",
     "winner_skill": "path/to/winner/skill",
     "loser_skill": "path/to/loser/skill",
-    "comparator_reasoning": "Brief summary of why comparator chose winner"
+    "comparator_reasoning": "比较器选择赢家原因的简要总结"
   },
   "winner_strengths": [
-    "Clear step-by-step instructions for handling multi-page documents",
-    "Included validation script that caught formatting errors"
+    "处理多页文档的清晰逐步说明",
+    "包含捕获格式错误的验证脚本"
   ],
   "loser_weaknesses": [
-    "Vague instruction 'process the document appropriately' led to inconsistent behavior",
-    "No script for validation, agent had to improvise"
+    "模糊说明'适当处理文档'导致不一致的行为",
+    "没有验证脚本，代理不得不即兴发挥"
   ],
   "instruction_following": {
     "winner": {
       "score": 9,
-      "issues": ["Minor: skipped optional logging step"]
+      "issues": ["小问题：跳过了可选的日志步骤"]
     },
     "loser": {
       "score": 6,
       "issues": [
-        "Did not use the skill's formatting template",
-        "Invented own approach instead of following step 3"
+        "未使用技能的格式模板",
+        "创造了自己的方法而不是遵循第3步"
       ]
     }
   },
@@ -418,13 +418,13 @@ Output from post-hoc analyzer. Located at `<grading-dir>/analysis.json`.
     {
       "priority": "high",
       "category": "instructions",
-      "suggestion": "Replace 'process the document appropriately' with explicit steps",
-      "expected_impact": "Would eliminate ambiguity that caused inconsistent behavior"
+      "suggestion": "将'适当处理文档'替换为明确步骤",
+      "expected_impact": "将消除导致不一致行为的歧义"
     }
   ],
   "transcript_insights": {
-    "winner_execution_pattern": "Read skill -> Followed 5-step process -> Used validation script",
-    "loser_execution_pattern": "Read skill -> Unclear on approach -> Tried 3 different methods"
+    "winner_execution_pattern": "阅读技能 -> 遵循5步流程 -> 使用验证脚本",
+    "loser_execution_pattern": "阅读技能 -> 对方法不确定 -> 尝试3种不同方法"
   }
 }
 ```
