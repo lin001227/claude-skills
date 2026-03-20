@@ -1,6 +1,6 @@
 ---
 name: pdf
-description: Use this skill whenever the user wants to do anything with PDF files. This includes reading or extracting text/tables from PDFs, combining or merging multiple PDFs into one, splitting PDFs apart, rotating pages, adding watermarks, creating new PDFs, filling PDF forms, encrypting/decrypting PDFs, extracting images, and OCR on scanned PDFs to make them searchable. If the user mentions a .pdf file or asks to produce one, use this skill.
+description: 当用户想要对 PDF 文件执行任何操作时，请使用此技能。这包括：读取或提取 PDF 中的文本/表格、将多个 PDF 合并为一个文件、拆分 PDF、旋转页面、添加水印、创建新 PDF、填写 PDF 表单、加密/解密 PDF、提取图片，以及对扫描版 PDF 进行 OCR 处理使其可搜索。如果用户提到 .pdf 文件或要求生成 PDF，就使用此技能。
 license: Proprietary. LICENSE.txt has complete terms
 ---
 
@@ -312,3 +312,199 @@ with open("encrypted.pdf", "wb") as output:
 - For JavaScript libraries (pdf-lib), see REFERENCE.md
 - If you need to fill out a PDF form, follow the instructions in FORMS.md
 - For troubleshooting guides, see REFERENCE.md
+
+---
+
+# 中文快速使用指南
+
+## 常用操作速查
+
+| 操作 | 推荐工具 | 说明 |
+|------|----------|------|
+| 合并 PDF | pypdf | 多个 PDF 合并为一个 |
+| 拆分 PDF | pypdf | 将 PDF 按页拆分 |
+| 提取文本 | pdfplumber | 保留格式的文本提取 |
+| 提取表格 | pdfplumber | 提取表格数据到 Excel |
+| 创建 PDF | reportlab | 从零创建新 PDF |
+| 命令行合并 | qpdf | 快速命令行操作 |
+| 扫描版 OCR | pytesseract | 识别扫描文档文字 |
+| 填写表单 | pypdf/pdf-lib | 填写 PDF 表单 |
+
+## 快速代码示例
+
+### 读取 PDF 基本信息
+```python
+from pypdf import PdfReader
+
+reader = PdfReader("document.pdf")
+print(f"总页数: {len(reader.pages)}")
+print(f"标题: {reader.metadata.title}")
+print(f"作者: {reader.metadata.author}")
+```
+
+### 提取文本内容
+```python
+import pdfplumber
+
+with pdfplumber.open("document.pdf") as pdf:
+    for i, page in enumerate(pdf.pages):
+        text = page.extract_text()
+        print(f"=== 第 {i+1} 页 ===")
+        print(text)
+```
+
+### 提取表格到 Excel
+```python
+import pdfplumber
+import pandas as pd
+
+with pdfplumber.open("document.pdf") as pdf:
+    all_tables = []
+    for page in pdf.pages:
+        tables = page.extract_tables()
+        for table in tables:
+            if table:
+                df = pd.DataFrame(table[1:], columns=table[0])
+                all_tables.append(df)
+
+if all_tables:
+    result = pd.concat(all_tables, ignore_index=True)
+    result.to_excel("提取的表格.xlsx", index=False)
+```
+
+### 合并多个 PDF
+```python
+from pypdf import PdfWriter, PdfReader
+
+writer = PdfWriter()
+for file in ["文件1.pdf", "文件2.pdf", "文件3.pdf"]:
+    reader = PdfReader(file)
+    for page in reader.pages:
+        writer.add_page(page)
+
+with open("合并结果.pdf", "wb") as output:
+    writer.write(output)
+```
+
+### 拆分 PDF 为单页
+```python
+from pypdf import PdfReader, PdfWriter
+
+reader = PdfReader("input.pdf")
+for i, page in enumerate(reader.pages):
+    writer = PdfWriter()
+    writer.add_page(page)
+    with open(f"第{i+1}页.pdf", "wb") as output:
+        writer.write(output)
+```
+
+### 旋转页面
+```python
+from pypdf import PdfReader, PdfWriter
+
+reader = PdfReader("input.pdf")
+writer = PdfWriter()
+
+for page in reader.pages:
+    page.rotate(90)  # 顺时针旋转90度
+    writer.add_page(page)
+
+with open("旋转后.pdf", "wb") as output:
+    writer.write(output)
+```
+
+### 添加水印
+```python
+from pypdf import PdfReader, PdfWriter
+
+# 读取水印（需要提前准备水印PDF）
+watermark = PdfReader("水印.pdf").pages[0]
+
+reader = PdfReader("document.pdf")
+writer = PdfWriter()
+
+for page in reader.pages:
+    page.merge_page(watermark)
+    writer.add_page(page)
+
+with open("加水印后.pdf", "wb") as output:
+    writer.write(output)
+```
+
+### 加密 PDF
+```python
+from pypdf import PdfReader, PdfWriter
+
+reader = PdfReader("input.pdf")
+writer = PdfWriter()
+
+for page in reader.pages:
+    writer.add_page(page)
+
+# 设置密码
+writer.encrypt("用户密码", "所有者密码")
+
+with open("加密后.pdf", "wb") as output:
+    writer.write(output)
+```
+
+### 扫描版 PDF OCR 识别
+```python
+# 需要安装: pip install pytesseract pdf2image
+import pytesseract
+from pdf2image import convert_from_path
+
+images = convert_from_path('扫描文档.pdf')
+
+for i, image in enumerate(images):
+    text = pytesseract.image_to_string(image, lang='chi_sim')  # 中文
+    print(f"=== 第 {i+1} 页 ===")
+    print(text)
+```
+
+### 创建新 PDF
+```python
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfgen import canvas
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
+# 注册中文字体（需要字体文件）
+pdfmetrics.registerFont(TTFont('SimHei', 'simhei.ttf'))
+
+c = canvas.Canvas("新建文档.pdf", pagesize=A4)
+c.setFont('SimHei', 24)
+c.drawString(100, 750, "这是标题")
+c.setFont('SimHei', 12)
+c.drawString(100, 700, "这是正文内容")
+c.save()
+```
+
+## 命令行工具速查
+
+### pdftotext - 提取文本
+```bash
+pdftotext input.pdf output.txt           # 基本提取
+pdftotext -layout input.pdf output.txt   # 保留布局
+pdftotext -f 1 -l 5 input.pdf out.txt    # 只提取第1-5页
+```
+
+### qpdf - 合并/拆分/旋转
+```bash
+qpdf --empty --pages a.pdf b.pdf -- merged.pdf   # 合并
+qpdf input.pdf --pages . 1-5 -- output.pdf       # 提取第1-5页
+qpdf input.pdf output.pdf --rotate=+90:1         # 第1页旋转90度
+qpdf --password=密码 --decrypt 加密.pdf 解密.pdf  # 解密
+```
+
+### pdfimages - 提取图片
+```bash
+pdfimages -j input.pdf img   # 提取所有图片为 img-000.jpg, img-001.jpg...
+```
+
+## 注意事项
+
+1. **中文支持**：使用 reportlab 创建 PDF 时，需要注册中文字体才能正确显示中文
+2. **扫描版 PDF**：扫描的图片型 PDF 需要先用 OCR 工具识别文字
+3. **加密 PDF**：处理加密 PDF 时需要先提供密码解密
+4. **表格提取**：复杂表格可能提取不完整，建议手动检查结果
