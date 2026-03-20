@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell -Command \"Get-Content C:\\\\\\\\Users\\\\\\\\linxianhan\\\\\\\\.claude\\\\\\\\skills\\\\\\\\vue3-code-review\\\\\\\\index.mjs | Select-Object -Last 30\")",
+      "Bash(powershell -Command \"node 'C:\\\\\\\\Users\\\\\\\\linxianhan\\\\\\\\.claude\\\\\\\\skills\\\\\\\\vue3-code-review\\\\\\\\index.mjs' .\")",
+      "Bash(node:*)",
+      "Bash(mkdir -p test-project/src/components)",
+      "Bash(mkdir -p test-project/src/composables)",
+      "Bash(mkdir -p test-project/src/types)"
+    ]
+  }
+}

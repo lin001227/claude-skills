@@ -1,0 +1,27 @@
+{
+  "name": "review-fronted",
+  "description": "A skill for reviewing Vue3 project code quality, checking for common issues, performance problems, security vulnerabilities, and best practices.",
+  "usage": "Use '/review-frontend [directory]' to analyze Vue3 components in the specified directory (defaults to current directory)",
+  "commands": [
+    {
+      "name": "review-frontend",
+      "description": "Review Vue3 project code for quality issues",
+      "handler": {
+        "type": "executable",
+        "command": "node",
+        "args": [".claude/skills/vue3-code-review/index.mjs"]
+      }
+    }
+  ],
+  "keywords": [
+    "vue",
+    "vue3",
+    "typescript",
+    "javascript",
+    "frontend",
+    "components",
+    "composition-api",
+    "performance",
+    "security"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "vue3-code-review",
+  "version": "1.0.0",
+  "description": "Vue3 项目代码审查工具，用于分析 Vue3 项目中的代码质量问题、性能问题、安全问题和最佳实践",
+  "main": "index.mjs",
+  "type": "module",
+  "keywords": [
+    "vue3",
+    "code-review",
+    "lint",
+    "typescript",
+    "frontend",
+    "quality"
+  ],
+  "scripts": {
+    "review": "node index.mjs"
+  },
+  "author": "Claude Code",
+  "license": "MIT",
+  "bin": {
+    "vue3-code-review": "./index.mjs"
+  },
+  "dependencies": {}
+}

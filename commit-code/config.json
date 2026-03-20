@@ -1,0 +1,32 @@
+{
+  "name": "commit-code",
+  "version": "1.0.0",
+  "description": "智能代码提交助手，自动生成符合规范的提交信息",
+  "author": "Claude Code",
+  "license": "MIT",
+  "main": "commit.py",
+  "keywords": [
+    "git",
+    "commit",
+    "conventional-commits",
+    "automation",
+    "developer-tools"
+  ],
+  "features": {
+    "auto_summary": true,
+    "smart_message_generation": true,
+    "file_type_detection": true,
+    "security_check": true,
+    "preview_before_commit": true
+  },
+  "requirements": {
+    "git": ">=2.0.0",
+    "python": ">=3.7"
+  },
+  "commands": [
+    "commit",
+    "submit",
+    "git-commit",
+    "commit-changes"
+  ]
+}
