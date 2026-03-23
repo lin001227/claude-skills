@@ -1,7 +1,7 @@
 {
   "name": "commit-code",
-  "version": "1.0.0",
-  "description": "智能代码提交助手，自动生成符合规范的提交信息",
+  "version": "1.1.0",
+  "description": "智能代码提交助手，自动生成符合规范的提交信息，支持分支管理功能",
   "author": "Claude Code",
   "license": "MIT",
   "main": "commit.py",
