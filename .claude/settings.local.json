@@ -8,7 +8,13 @@
       "Bash(git commit:*)",
       "Bash(git remote:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebFetch(domain:docs.anthropic.com)",
+      "WebSearch",
+      "Read(//c/Users/linxianhan/.claude//**)",
+      "Read(//c/Users/linxianhan/.claude/**)",
+      "Bash(npx --version)",
+      "Bash(npx -y mcp-server-mssql --help)"
     ]
   }
 }
