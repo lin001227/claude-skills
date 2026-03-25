@@ -3,6 +3,8 @@
     "allow": [
       "Bash(python \"c:/Users/linxianhan/.claude/skills/commit-code/main.py\")",
       "Bash(python -c \"with open\\(''c:/Users/linxianhan/.claude/skills/commit-code/enhanced_commit.py'', ''r'', encoding=''utf-8''\\) as f: print\\(f.read\\(1000\\)\\)\")",
+      "Bash(bash \"d:/claude-skills/commit-code-new/main.bash\")",
+      "Bash(bash \"d:/claude-skills/commit-code-new/commit.bash\")",
       "Bash(git init:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
